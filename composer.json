@@ -1,0 +1,38 @@
+{
+	"name" : "mfcc/title-manager",
+	"description" : "Management of page title and og:meta informations through config file",
+	"type" : "library",
+	"authors" : [{
+			"name" : "Jan Sourek",
+			"email" : "jan.sourek@mfcc.cz",
+			"homepage" : "http://www.mfcc.cz",
+			"role" : "Developer"
+		}
+	],
+	"keywords" : [
+		"open-graph",
+		"html",
+		"title",
+		"description",
+		"service",
+		"zend",
+		"zf2"
+	],
+	"homepage" : "https://github.com/jonsource/mfcc-titlemanager",
+	"license" : [
+		"MIT"
+	],
+	"require" : {
+		"php" : ">=5.3.0",
+		"zendframework/zendframework" : ">=2.1,<=2.3.x-dev"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"MfccTitleManager" : "src"
+		},
+		"classmap" : [
+			"./"
+		]
+	},
+	"minimum-stability" : "dev"
+}
