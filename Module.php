@@ -8,10 +8,6 @@ namespace MfccTitleManager;
 
 class Module
 {
-    public function onBootstrap($e)
-    {
-    }
-
     public function getConfig()
     {
     	return include __DIR__ . '/config/module.config.php';
@@ -28,13 +24,22 @@ class Module
     	);
     }
 
-    public function getViewHelperConfig()
+    public function getServiceConfig()
     {
     	return array(
     			'factories' => array(
-
-    			),
+    				'titleManager' => function ($sm) {
+    					$config  = $sm->get('config');
+    					if ($config instanceof Traversable) {
+    						$config = ArrayUtils::iteratorToArray($config);
+    					}
+    					
+    					$title = new Service\TitleManager();
+    					$title ->setServiceManager($sm);
+    					$title ->setDefaults($config['MfccTitleManager']);
+    					return $title;
+    				}
+    			)
     	);
-
     }
 }
