@@ -46,8 +46,7 @@ class TitleManager {
 	}
 	
 	public function setImages($images)
-	{	//var_dump($images);
-		foreach($images as $image)
+	{	foreach($images as $image)
 		{	/** TODO check whether image given as absolute or relative path **/
 			if(strpos($image,'http://')===false && strpos($image,'https://')===false) // first letter is not 'h' - it's not http:// something
 				$this->serviceManager->get('viewHelperManager')->get('headmeta')->appendProperty('og:image', 'http://'.$_SERVER['HTTP_HOST'].'/'.$image);
@@ -118,6 +117,25 @@ class TitleManager {
 				'description' => $this->getDefaultDescription(), 
 				'images' => $this->getDefaultImages()
 		);
+	}
+	
+	public function setTitlePrepend($val)
+	{	if($val) $this->titlePrepend = true;
+		else $this->titlePrepend = false;
+	}
+	
+	public function getTitlePrepend()
+	{	return $this->titlePrepend();
+	}
+	
+	public function setDefaults($config)
+	{	$keys = array('defaultDescription','defaultImages','defaultImage','defaultTitle','baseTitle','titleSeparator','titlePrepend');
+		foreach($keys as $key)
+		/* iterates through the $keys and for each existing key call a setKey function with params from config */
+		if(array_key_exists($key,$config))
+		{	call_user_func(array( $this,'set'.ucfirst($key)),$config[$key]);
+			
+		}
 	}
 	
 	public function setTitleMeta(\Zend\Mvc\MvcEvent $e)
