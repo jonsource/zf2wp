@@ -18,18 +18,51 @@ Usage:
 ------
 
 1. Enable MfccTitlemanager module in your application.config.php file.
-3. Set defaults
 
 ```sh
-setDefaultTitle() /* title to show on pages where no title is given */
-setBaseTitle() /* base part of component title, i.e. "mfcc page" */
-setTitleSeparator() /* string to separate BaseTitle and SubTitle */
-setTitlePrepend() /* display BaseTitle TitleSeparator SubTitle when true and SubTitle TitleSeparator BaseTitle when false */
-setDefaultDescription() /* default page description */
-setDefaultImages(array(string)) /* array of default images */
-setDefaultImage(string) /* single default image */
+'modules' => array(
+    	...,
+    	...,
+    	...,
+    	'MfccTitleManager',
+    	...,
+    	'Application',
+    ),
 
 ```
+
+3. Set options in your base module.config.php
+
+```sh
+
+'MfccTitleManager' => array(
+    		'defaultTitle' => 'Ladíme v praxi | Pardál',
+    		'baseTitle' => 'Ladíme v praxi',
+    		'defaultDescription' => 'Začni s Pardálem ladit pivní vychytávky! Uděláš něco záslužného pro hospodské lidstvo a ještě můžeš vyhrát pivo a další ceny od Pardála.',
+    		'defaultImages' => array( 'img/fb/ladime-v-praxi-fb-share-01.jpg',
+									'img/fb/ladime-v-praxi-fb-share-02.jpg',
+									'img/fb/ladime-v-praxi-fb-share-03.jpg',
+									'img/fb/ladime-v-praxi-fb-share-04.jpg',
+									'img/fb/ladime-v-praxi-fb-share-05.jpg',
+									'img/fb/ladime-v-praxi-fb-share-06.jpg')
+    )
+
+```
+
+3. Options available in base module.config.php:
+
+```sh
+
+defaultTitle /* title to show on pages where no title is given */
+baseTitle /* base part of component title, i.e. "mfcc page" */
+titleSeparator /* string to separate BaseTitle and SubTitle */
+titlePrepend /* display BaseTitle TitleSeparator SubTitle when true and SubTitle TitleSeparator BaseTitle when false, defaults to false */
+defaultDescription /* default page description */
+defaultImages => (array(string)) /* array of paths or urls to default images */
+defaultImage => (string) /* single path or url to default image */
+
+```
+
 2. Set information in your route. i.e: 
 
 ```sh
@@ -43,9 +76,12 @@ setDefaultImage(string) /* single default image */
             						'action'        => 'index',
             				),
             		),
-            		'title_manager' => array(
+            		
+   /* MfccTitleManager entry */
+            		
+	           		'title_manager' => array(
             			'sub_title'=>'Sub Title­',
-            			'description'=>'Fancy description of given pagei.',
+            			'description'=>'Fancy description of given page.',
             			'images'=> array('img/fb/fb-promo-image.jpg'),
             		),
 ```
@@ -63,7 +99,11 @@ none => don't use title_manager for this page (probably will be set manually in 
 4. shortcuts for manual setting of page info:
 
 ```sh
-  setTitle();
+  $tm = $this->serviceManager('titleManager');
+  $tm->titleManager->setTitle();
+  
+  .. or ..
+  
   setSubTitle(); /* create title by prepending or appending to base title */
   setImages(array);
   setDescription;
