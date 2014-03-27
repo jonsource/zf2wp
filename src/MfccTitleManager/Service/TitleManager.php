@@ -154,8 +154,11 @@ class TitleManager {
 			//var_dump($depth);
 			//var_dump($sub);
 			
-			if($depth==1) $routes=$routes['child_routes'][$sub];
-			else $routes=$routes[$sub];
+			if($depth==1){
+				if(isset($routes['child_routes'][$sub])) $routes = $routes['child_routes'][$sub];
+			} else {
+				if(isset($routes[$sub])) $routes = $routes[$sub];
+			}
 			
 			//var_dump($routes);
 			
@@ -164,9 +167,11 @@ class TitleManager {
 		
 		// get head_meta from config or use default
 		
-		if(array_key_exists($this->configLabel,$routes))
+		if(is_array($routes) && array_key_exists($this->configLabel, $routes)){
 			$headMeta = $routes[$this->configLabel];
-		else $headMeta = $this->getDefaultHeadMeta();
+		} else {
+			$headMeta = $this->getDefaultHeadMeta();
+		}
 		
 		if($headMeta=='none') return;
 		//echo '<br><br>prdel:<br><br>';
