@@ -3,5 +3,5 @@
 namespace MfccTitleManager;
 
 return array(
-	
+
 );

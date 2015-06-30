@@ -38,7 +38,18 @@ class Module
     					$title ->setServiceManager($sm);
     					$title ->setDefaults($config['MfccTitleManager']);
     					return $title;
-    				}
+    				},
+                    'wpdbManager' => function ($sm) {
+                        $config  = $sm->get('config');
+                        if ($config instanceof Traversable) {
+                            $config = ArrayUtils::iteratorToArray($config);
+                        }
+
+                        $wpdb = new Service\WpdbManager();
+                        $wpdb ->setServiceManager($sm);
+                        $wpdb ->setDatabase($config['wpdb']);
+                        return $wpdb;
+                    }
     			)
     	);
     }
