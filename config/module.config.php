@@ -1,6 +1,6 @@
 <?php
 
-namespace MfccTitleManager;
+namespace Zf2Wp;
 
 return array(
 

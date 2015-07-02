@@ -1,6 +1,6 @@
 <?php
 
-namespace MfccTitleManager\Service;
+namespace Zf2Wp\Service;
 
 require_once('vendor\mfcc\title-manager\src\Include\my.php');
 require_once('vendor\mfcc\title-manager\src\Include\wp-db.php');
@@ -8,14 +8,6 @@ require_once('vendor\mfcc\title-manager\src\Include\meta.php');
 require_once('vendor\mfcc\title-manager\src\Include\taxonomy.php');
 require_once('vendor\mfcc\title-manager\src\Include\query.php');
 
-
-//use Zend\ServiceManager\ServiceLocatorAwareInterface;
-//use Zend\ServiceManager\ServiceLocatorInterface;
-
-//use Traversable;
-//use Zend\ServiceManager\FactoryInterface;
-//use Zend\ServiceManager\ServiceLocatorInterface;
-//use Zend\Stdlib\ArrayUtils;
 
 /**
  * Mailer Service

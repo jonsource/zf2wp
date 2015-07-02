@@ -1,6 +1,6 @@
 {
-	"name" : "mfcc/title-manager",
-	"description" : "Management of page title and og:meta informations through config file",
+	"name" : "mfcc/zf2wp",
+	"description" : "Use Wordpress data model in ZF2",
 	"type" : "library",
 	"authors" : [{
 			"name" : "Jan Sourek",
@@ -10,15 +10,10 @@
 		}
 	],
 	"keywords" : [
-		"open-graph",
-		"html",
-		"title",
-		"description",
-		"service",
-		"zend",
+		"wordpress",
 		"zf2"
 	],
-	"homepage" : "https://github.com/jonsource/mfcc-titlemanager",
+	"homepage" : "https://github.com/jonsource/zf2wp",
 	"license" : [
 		"MIT"
 	],
@@ -28,7 +23,7 @@
 	},
 	"autoload" : {
 		"psr-0" : {
-			"MfccTitleManager" : "src"
+			"Zf2Wp" : "src"
 		},
 		"classmap" : [
 			"./"

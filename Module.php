@@ -1,6 +1,6 @@
 <?php
 
-namespace MfccTitleManager;
+namespace Zf2Wp;
 
 /**
  * The Module-Provider
@@ -28,18 +28,7 @@ class Module
     {
     	return array(
     			'factories' => array(
-    				'titleManager' => function ($sm) {
-    					$config  = $sm->get('config');
-    					if ($config instanceof Traversable) {
-    						$config = ArrayUtils::iteratorToArray($config);
-    					}
-    					
-    					$title = new Service\TitleManager();
-    					$title ->setServiceManager($sm);
-    					$title ->setDefaults($config['MfccTitleManager']);
-    					return $title;
-    				},
-                    'wpdbManager' => function ($sm) {
+    				'wpdbManager' => function ($sm) {
                         $config  = $sm->get('config');
                         if ($config instanceof Traversable) {
                             $config = ArrayUtils::iteratorToArray($config);
