@@ -152,6 +152,41 @@ function create_initial_taxonomies() {
 function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' ) {
 	global $wp_taxonomies;
 
+    //TODO:proper loading of taxonomies
+    if(!isset($wp_taxonomies)) {
+        $cat = new stdClass();
+
+        $cat->public = true;
+        $cat->hierarchical = true;
+
+        $cat->rewrite = ["with_front" => true,
+            "hierarchical" => true,
+            "ep_mask" => 512,
+            "slug" => "category"];
+
+        $cat->query_var = "category_name";
+        $cat->_builtin = true;
+        $cap = new stdClass();
+
+        $cap->manage_terms = "manage_categories";
+        $cap->edit_terms = "manage_categories";
+        $cap->delete_terms = "manage_categories";
+        $cap->assign_terms = "edit_posts";
+
+        $cat->cap = $cap;
+        $cat->name = "category";
+        $cat->object_type = "post";
+        /*["object_type"]=>
+            array(1) {
+            [0]=>
+              string(4) "post"
+            }
+            ["label"]=>
+            string(10) "Categories"
+          */
+        $wp_taxonomies = ['category'=>$cat];
+    }
+
 	$field = ('names' == $output) ? 'name' : false;
 
 	return wp_filter_object_list($wp_taxonomies, $args, $operator, $field);
@@ -930,7 +965,7 @@ class WP_Tax_Query {
 		 * To keep $this->queries unaltered, pass a copy.
 		 */
 		$queries = $this->queries;
-		$sql = $this->get_sql_for_query( $queries );
+        $sql = $this->get_sql_for_query( $queries );
 
 		if ( ! empty( $sql['where'] ) ) {
 			$sql['where'] = ' AND ' . $sql['where'];
@@ -1044,7 +1079,7 @@ class WP_Tax_Query {
 	public function get_sql_for_clause( &$clause, $parent_query ) {
 		global $wpdb;
 
-		$sql = array(
+        $sql = array(
 			'where' => array(),
 			'join'  => array(),
 		);
@@ -1060,9 +1095,9 @@ class WP_Tax_Query {
 		$terms = $clause['terms'];
 		$operator = strtoupper( $clause['operator'] );
 
-		if ( 'IN' == $operator ) {
+        if ( 'IN' == $operator ) {
 
-			if ( empty( $terms ) ) {
+            if ( empty( $terms ) ) {
 				return self::$no_results;
 			}
 
@@ -1090,8 +1125,7 @@ class WP_Tax_Query {
 
 
 			$where = "$alias.term_taxonomy_id $operator ($terms)";
-
-		} elseif ( 'NOT IN' == $operator ) {
+        } elseif ( 'NOT IN' == $operator ) {
 
 			if ( empty( $terms ) ) {
 				return $sql;
@@ -1466,7 +1500,8 @@ function get_term_by($field, $value, $taxonomy, $output = OBJECT, $filter = 'raw
 	if ( ! $term )
 		return false;
 
-	wp_cache_add( $term->term_id, $term, $taxonomy );
+    //TODO: removed cache
+	//wp_cache_add( $term->term_id, $term, $taxonomy );
 
 	/** This filter is documented in wp-includes/taxonomy.php */
 	$term = apply_filters( 'get_term', $term, $taxonomy );

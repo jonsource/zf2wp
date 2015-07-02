@@ -1553,7 +1553,8 @@ class WP_Query {
 	 * }
 	 */
 	public function parse_query( $query =  '' ) {
-		if ( ! empty( $query ) ) {
+
+        if ( ! empty( $query ) ) {
 			$this->init();
 			$this->query = $this->query_vars = wp_parse_args( $query );
 		} elseif ( ! isset( $this->query ) ) {
@@ -1841,7 +1842,7 @@ class WP_Query {
 	 * @param array &$q The query variables
 	 */
 	public function parse_tax_query( &$q ) {
-		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
+        if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
 			$tax_query = $q['tax_query'];
 		} else {
 			$tax_query = array();
@@ -1855,11 +1856,13 @@ class WP_Query {
 			);
 		}
 
+
 		foreach ( get_taxonomies( array() , 'objects' ) as $taxonomy => $t ) {
-			if ( 'post_tag' == $taxonomy )
+
+            if ( 'post_tag' == $taxonomy )
 				continue;	// Handled further down in the $q['tag'] block
 
-			if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
+            if ( $t->query_var && !empty( $q[$t->query_var] ) ) {
 				$tax_query_defaults = array(
 					'taxonomy' => $taxonomy,
 					'field' => 'slug',
@@ -1886,8 +1889,8 @@ class WP_Query {
 			}
 		}
 
-		// Category stuff
-		if ( ! empty( $q['cat'] ) && ! $this->is_singular ) {
+        // Category stuff
+        if ( ! empty( $q['cat'] ) && ! $this->is_singular ) {
 			$cat_in = $cat_not_in = array();
 
 			$cat_array = preg_split( '/[,\s]+/', urldecode( $q['cat'] ) );
@@ -2036,7 +2039,7 @@ class WP_Query {
 
 		$this->tax_query = new WP_Tax_Query( $tax_query );
 
-		/**
+        /**
 		 * Fires after taxonomy-related query vars have been parsed.
 		 *
 		 * @since 3.7.0
@@ -2386,7 +2389,7 @@ class WP_Query {
 	public function get_posts() {
 		global $wpdb;
 
-		$this->parse_query();
+        $this->parse_query();
 
 		/**
 		 * Fires after the query variable object is created, but before the actual query is run.
@@ -2401,10 +2404,10 @@ class WP_Query {
 		 */
 		do_action_ref_array( 'pre_get_posts', array( &$this ) );
 
-		// Shorthand.
+        // Shorthand.
 		$q = &$this->query_vars;
 
-		// Fill again in case pre_get_posts unset some vars.
+        // Fill again in case pre_get_posts unset some vars.
 		$q = $this->fill_query_vars($q);
 
 		// Parse meta query
@@ -2700,7 +2703,8 @@ class WP_Query {
 		 */
 		$search = apply_filters_ref_array( 'posts_search', array( $search, &$this ) );
 
-		// Taxonomies
+
+        // Taxonomies
 		if ( !$this->is_singular ) {
 			$this->parse_tax_query( $q );
 
@@ -2708,9 +2712,10 @@ class WP_Query {
 
 			$join .= $clauses['join'];
 			$where .= $clauses['where'];
+
 		}
 
-		if ( $this->is_tax ) {
+        if ( $this->is_tax ) {
 			if ( empty($post_type) ) {
 				// Do a fully inclusive search for currently registered post types of queried taxonomies
 				$post_type = array();
@@ -2731,7 +2736,7 @@ class WP_Query {
 			}
 		}
 
-		/*
+        /*
 		 * Ensure that 'taxonomy', 'term', 'term_id', 'cat', and
 		 * 'category_name' vars are set for backward compatibility.
 		 */
