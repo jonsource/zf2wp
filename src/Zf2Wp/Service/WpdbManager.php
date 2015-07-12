@@ -28,16 +28,16 @@ class WpdbManager {
     private $posts_meta_cache=[];
 
     function setDatabase($db) {
-        $db_params = $db['db_params'];
-        $this->mysqli = new \mysqli($db_params['host'], $db_params['user'], $db_params['password'], $db_params['dbname']);
+        $db_settings = $db['db_settings'];
+        $this->mysqli = new \mysqli($db_settings['db_host'], $db_settings['db_user'], $db_settings['db_password'], $db_settings['db_name']);
 
         if ($this->mysqli->connect_error) {
             die('Connect Error (' . $this->mysqli->connect_errno . ') '
                 . $this->mysqli->connect_error);
         }
 
-        $this->wpdb = new \wpdb( $db_params['user'], $db_params['password'], $db_params['dbname'], $db_params['host'] );
-        $this->wpdb->set_prefix('wp_');
+        $this->wpdb = new \wpdb( $db_settings['db_user'], $db_settings['db_password'], $db_settings['db_name'], $db_settings['db_host'] );
+        $this->wpdb->set_prefix($db_settings['table_prefix']);
 
     }
 

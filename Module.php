@@ -34,16 +34,17 @@ class Module
                             $config = ArrayUtils::iteratorToArray($config);
                         }
 
-                        if(isset($config['wp_debug'])) {
-                            define('WP_DEBUG',$config['wp_debug']);
+                        /* process wp settings for wp native calls */
+                        if(isset($config['wp_config']['wp_debug'])) {
+                            define('WP_DEBUG',$config['wp_config']['wp_debug']);
                         } else {
                             define('WP_DEBUG',false);
                         }
 
-                        $wpdb = new Service\WpdbManager();
-                        $wpdb ->setServiceManager($sm);
-                        $wpdb ->setDatabase($config['wpdb']);
-                        return $wpdb;
+                        $wpdbm = new Service\WpdbManager();
+                        $wpdbm ->setServiceManager($sm);
+                        $wpdbm ->setDatabase($config['wp_config']);
+                        return $wpdbm;
                     }
     			)
     	);
