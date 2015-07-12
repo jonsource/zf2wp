@@ -14,7 +14,7 @@
 		"zf2"
 	],
 	"homepage" : "https://github.com/jonsource/zf2wp",
-	"license" : [
+    "license" : [
 		"MIT"
 	],
 	"require" : {
@@ -22,12 +22,9 @@
 		"zendframework/zendframework" : ">=2.1"
 	},
 	"autoload" : {
-		"psr-0" : {
-			"Zf2Wp" : "src"
-		},
-		"classmap" : [
-			"./"
-		]
-	},
+        "psr-4": {
+            "Mfcc\\Zf2Wp\\": "src/"
+        }
+    },
 	"minimum-stability" : "dev"
 }
