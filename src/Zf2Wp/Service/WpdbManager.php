@@ -2,12 +2,11 @@
 
 namespace Zf2Wp\Service;
 
-require_once('vendor\mfcc\zf2wp\src\Include\my.php');
-require_once('vendor\mfcc\zf2wp\src\Include\wp-db.php');
-require_once('vendor\mfcc\zf2wp\src\Include\meta.php');
-require_once('vendor\mfcc\zf2wp\src\Include\taxonomy.php');
-require_once('vendor\mfcc\zf2wp\src\Include\query.php');
-
+require_once('vendor/mfcc/zf2wp/src/Include/my.php');
+require_once('vendor/mfcc/zf2wp/src/Include/wp-db.php');
+require_once('vendor/mfcc/zf2wp/src/Include/meta.php');
+require_once('vendor/mfcc/zf2wp/src/Include/taxonomy.php');
+require_once('vendor/mfcc/zf2wp/src/Include/query.php');
 
 /**
  * Mailer Service
