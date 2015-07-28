@@ -3552,7 +3552,7 @@ class WP_Query {
 			//$type = get_post_type($this->posts[0]);
 
 			// If the post_status was specifically requested, let it pass through.
-			if ( !$post_status_obj->public && ! in_array( $status, $q_status ) ) {
+			if ( @!$post_status_obj->public && ! in_array( $status, $q_status ) ) {
 
 				if ( ! is_user_logged_in() ) {
 					// User must be logged in to view unpublished posts.
@@ -4755,4 +4755,67 @@ function setup_postdata( $post ) {
 	}
 
 	return false;
+}
+
+
+
+/**
+ * Retrieve the post status based on the Post ID.
+ *
+ * If the post ID is of an attachment, then the parent post status will be given
+ * instead.
+ *
+ * @since 2.0.0
+ *
+ * @param int|WP_Post $ID Optional. Post ID or post object. Default empty.
+ * @return string|false Post status on success, false on failure.
+ */
+function get_post_status( $ID = '' ) {
+	$post = get_post($ID);
+
+	if ( !is_object($post) )
+		return false;
+
+	if ( 'attachment' == $post->post_type ) {
+		if ( 'private' == $post->post_status )
+			return 'private';
+
+		// Unattached attachments are assumed to be published.
+		if ( ( 'inherit' == $post->post_status ) && ( 0 == $post->post_parent) )
+			return 'publish';
+
+		// Inherit status from the parent.
+		if ( $post->post_parent && ( $post->ID != $post->post_parent ) ) {
+			$parent_post_status = get_post_status( $post->post_parent );
+			if ( 'trash' == $parent_post_status ) {
+				return get_post_meta( $post->post_parent, '_wp_trash_meta_status', true );
+			} else {
+				return $parent_post_status;
+			}
+		}
+
+	}
+
+	return $post->post_status;
+}
+
+/**
+ * Retrieve a post status object by name.
+ *
+ * @since 3.0.0
+ *
+ * @global array $wp_post_statuses List of post statuses.
+ *
+ * @see register_post_status()
+ *
+ * @param string $post_status The name of a registered post status.
+ * @return object A post status object.
+ */
+function get_post_status_object( $post_status ) {
+    global $wp_post_statuses;
+
+    if ( empty($wp_post_statuses[$post_status]) )
+        return null;
+
+    return $wp_post_statuses[$post_status];
 }
