@@ -4757,8 +4757,6 @@ function setup_postdata( $post ) {
 	return false;
 }
 
-
-
 /**
  * Retrieve the post status based on the Post ID.
  *
@@ -4771,32 +4769,49 @@ function setup_postdata( $post ) {
  * @return string|false Post status on success, false on failure.
  */
 function get_post_status( $ID = '' ) {
-	$post = get_post($ID);
+    $post = get_post($ID);
 
-	if ( !is_object($post) )
-		return false;
+    if ( !is_object($post) )
+        return false;
 
-	if ( 'attachment' == $post->post_type ) {
-		if ( 'private' == $post->post_status )
-			return 'private';
+    if ( 'attachment' == $post->post_type ) {
+        if ( 'private' == $post->post_status )
+            return 'private';
 
-		// Unattached attachments are assumed to be published.
-		if ( ( 'inherit' == $post->post_status ) && ( 0 == $post->post_parent) )
-			return 'publish';
+        // Unattached attachments are assumed to be published.
+        if ( ( 'inherit' == $post->post_status ) && ( 0 == $post->post_parent) )
+            return 'publish';
 
-		// Inherit status from the parent.
-		if ( $post->post_parent && ( $post->ID != $post->post_parent ) ) {
-			$parent_post_status = get_post_status( $post->post_parent );
-			if ( 'trash' == $parent_post_status ) {
-				return get_post_meta( $post->post_parent, '_wp_trash_meta_status', true );
-			} else {
-				return $parent_post_status;
-			}
-		}
+        // Inherit status from the parent.
+        if ( $post->post_parent && ( $post->ID != $post->post_parent ) ) {
+            $parent_post_status = get_post_status( $post->post_parent );
+            if ( 'trash' == $parent_post_status ) {
+                return get_post_meta( $post->post_parent, '_wp_trash_meta_status', true );
+            } else {
+                return $parent_post_status;
+            }
+        }
 
-	}
+    }
 
-	return $post->post_status;
+    return $post->post_status;
+}
+
+
+/**
+ * Retrieve post meta field for a post.
+ *
+ * @since 1.5.0
+ *
+ * @param int    $post_id Post ID.
+ * @param string $key     Optional. The meta key to retrieve. By default, returns
+ *                        data for all keys. Default empty.
+ * @param bool   $single  Optional. Whether to return a single value. Default false.
+ * @return mixed Will be an array if $single is false. Will be value of meta data
+ *               field if $single is true.
+ */
+function get_post_meta( $post_id, $key = '', $single = false ) {
+    return get_metadata('post', $post_id, $key, $single);
 }
 
 /**
