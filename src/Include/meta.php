@@ -490,7 +490,8 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 			return $check;
 	}
 
-	$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
+	//$meta_cache = wp_cache_get($object_id, $meta_type . '_meta');
+    $meta_cache = false;
 
 	if ( !$meta_cache ) {
 		$meta_cache = update_meta_cache( $meta_type, array( $object_id ) );
@@ -809,7 +810,8 @@ function update_meta_cache($meta_type, $object_ids) {
 	$ids = array();
 	$cache = array();
 	foreach ( $object_ids as $id ) {
-		$cached_object = wp_cache_get( $id, $cache_key );
+		//$cached_object = wp_cache_get( $id, $cache_key );
+        $cached_object = false;
 		if ( false === $cached_object )
 			$ids[] = $id;
 		else
@@ -844,7 +846,7 @@ function update_meta_cache($meta_type, $object_ids) {
 	foreach ( $ids as $id ) {
 		if ( ! isset($cache[$id]) )
 			$cache[$id] = array();
-		wp_cache_add( $id, $cache[$id], $cache_key );
+		//wp_cache_add( $id, $cache[$id], $cache_key );
 	}
 
 	return $cache;
