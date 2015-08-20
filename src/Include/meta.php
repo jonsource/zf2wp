@@ -540,7 +540,8 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
 	if ( null !== $check )
 		return (bool) $check;
 
-	$meta_cache = wp_cache_get( $object_id, $meta_type . '_meta' );
+	//$meta_cache = wp_cache_get( $object_id, $meta_type . '_meta' );
+    $meta_cache = false;
 
 	if ( !$meta_cache ) {
 		$meta_cache = update_meta_cache( $meta_type, array( $object_id ) );
