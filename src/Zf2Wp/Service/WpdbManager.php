@@ -34,10 +34,11 @@ class WpdbManager {
             die('Connect Error (' . $this->mysqli->connect_errno . ') '
                 . $this->mysqli->connect_error);
         }
+        $this->mysqli->set_charset($db_settings['charset']);
 
         $this->wpdb = new \wpdb( $db_settings['db_user'], $db_settings['db_password'], $db_settings['db_name'], $db_settings['db_host'] );
         $this->wpdb->set_prefix($db_settings['table_prefix']);
-
+        $this->wpdb->dbh->set_charset($db_settings['charset']);
     }
 
     function getPostFromCache($id) {
